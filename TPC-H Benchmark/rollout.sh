@@ -153,7 +153,7 @@ for i in $( ls *.hawq.sql ); do
 	T="$(date +%s%N)"
 
 	#check to see if there are more than one file for this table
-	count=`ls \"$PWD/data/\"$table_name.* 2> /dev/null | wc -l`
+	count=`ls /$DATA_DIR/$DEMO_DIR/data/$table_name.* 2> /dev/null | wc -l`
 
 	if [ "$count" -ge "1" ]; then
 		LOCATION="'gpfdist://$HOSTNAME:$GPFDIST_PORT/$table_name.*'"
