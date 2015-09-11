@@ -1,4 +1,9 @@
---SQL statement used to generate random data
+--Write to HDFS with HAWQ
+CREATE WRITABLE EXTERNAL TABLE pxf.wr_sample
+(i int, fname text, title varchar(100), salary numeric) 
+LOCATION (:LOCATION) FORMAT 'text' (delimiter '|' null 'null');
+
+INSERT INTO pxf.wr_sample
 SELECT  i, 
         pxf.fn_random_string(30) AS fname, 
         CASE (random()*(9)+1)::int 

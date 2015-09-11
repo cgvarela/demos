@@ -51,9 +51,8 @@ create_reports_schema()
 
 hadoop_init()
 {
-	hdfs dfs -rm -f -r -skipTrash \"$PXF_DATA_DIR\"
+	sudo -u hdfs hdfs dfs -rm -f -r -skipTrash \"$PXF_DATA_DIR\"
 	hdfs dfs -mkdir \"$PXF_DATA_DIR\"
-
 }
 
 posix_init()
@@ -111,43 +110,13 @@ echo "##########################################################################
 echo "HAWQ Begin"
 echo "############################################################################"
 #HAWQ Tables
-for i in $( ls *.step1.sql ); do
-	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
+for i in $( ls *.sql ); do
 	echo $i
 	#begin time
 	T="$(date +%s%N)"
 
-	LOCATION="'pxf://$HOSTNAME:$NN_PORT$PXF_DATA_DIR/$table_name?profile=HdfsTextSimple'"
+	LOCATION="'pxf://$HOSTNAME:$NN_PORT$PXF_DATA_DIR/sample?profile=HdfsTextSimple'"
 	psql -a -P pager=off -f $i -v LOCATION=$LOCATION
-	echo ""
-
-	log
-done
-
-#spool files to data directory and then hdfs put
-for i in $( ls *.step2.sql ); do
-	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
-	echo $i
-	#begin time
-	T="$(date +%s%N)"
-	cat $i
-	psql --no-psqlrc -t -A -f $i > \"$POSIX_DATA_DIR/$table_name\"
-	echo ""
-	echo "hdfs dfs -put \"$PWD/data/$table_name\" \"$PXF_DATA_DIR/$table_name\""
-	hdfs dfs -put \"$PWD/data/$table_name\" \"$PXF_DATA_DIR/$table_name\"
-	echo ""
-
-	log
-done
-
-#read data from hdfs with pxf
-for i in $( ls *.step3.sql ); do
-	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
-	echo $i
-	#begin time
-	T="$(date +%s%N)"
-
-	psql -a -P pager=off -f $i
 	echo ""
 
 	log

@@ -179,6 +179,6 @@ echo ""
 psql -f report.sql
 echo ""
 echo "############################################################################"
-echo "Explore the scripts from this demo to better understand how HAWQ works:."
+echo "Explore the scripts from this demo to better understand how HAWQ works:"
 echo "$PWD"
 echo "############################################################################"
