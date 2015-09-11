@@ -50,7 +50,7 @@ create_reports_schema()
 
 hadoop_init()
 {
-	sudo -u hdfs hdfs dfs -rm -f -r -skipTrash \"$PXF_DATA_DIR\"
+	sudo -u hdfs hdfs dfs -rm -f -r -skipTrash $PXF_DATA_DIR
 }
 
 echo ""
@@ -96,7 +96,7 @@ echo "##########################################################################
 echo "HAWQ Begin"
 echo "############################################################################"
 #HAWQ Tables
-for i in $( ls *.sql ); do
+for i in $( ls *.sql | grep -v report.sql ); do
 	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
 	echo $i
 	#begin time
