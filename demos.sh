@@ -268,7 +268,7 @@ while [ -z "$CONTINUE" ]; do
 	else
 		### Start PHD Services for this Demo ###
 		START_SERVICE=""
-		SERVICES=`grep \"$MYDEMO\" /$DATA_DIR/$REPO/demos.txt | awk -F '|' '{print $2}' | awk '{printf ("%s,", $0)}'`
+		SERVICES=`grep $MYDEMO /$DATA_DIR/$REPO/demos.txt | awk -F '|' '{print $2}' | awk '{printf ("%s,", $0)}'`
 
 		for START_SERVICE in $SERVICES; do
 			/$DATA_DIR/$DEMO_DIR/phd3.sh "start" "$START_SERVICE" "$HOSTNAME" "$AMBARI_USER" "$AMBARI_PASSWORD"
