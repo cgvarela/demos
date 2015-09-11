@@ -229,7 +229,8 @@ exists()
 
 check_sudo()
 {
-	update_sudo.sh
+	cp /$DATA_DIR/$DEMO_DIR/update_sudo.sh $PWD/update_sudo.sh
+	$PWD/update_sudo.sh
 }
 
 ##################################################################################################################################################
@@ -238,10 +239,10 @@ check_sudo()
 
 check_user
 check_variables
-check_sudo
 yum_installs
 repo_init
 demo_script_check
+check_sudo
 
 CONTINUE=""
 while [ -z "$CONTINUE" ]; do
