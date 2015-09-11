@@ -2,7 +2,9 @@
 set -e
 DEMO=cms
 HOSTNAME=`hostname`
-GPFDIST_PORT=$1
+DATA_DIR=$1
+DEMO_DIR=$2
+GPFDIST_PORT=$3
 
 PWD=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 WHOAMI=`whoami`
