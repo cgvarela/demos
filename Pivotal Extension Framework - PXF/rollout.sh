@@ -97,6 +97,7 @@ echo "HAWQ Begin"
 echo "############################################################################"
 #HAWQ Tables
 for i in $( ls *.sql ); do
+	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
 	echo $i
 	#begin time
 	T="$(date +%s%N)"
