@@ -12,6 +12,8 @@ echo ""
 echo "############################################################################"
 echo "Demo Configuration"
 echo "############################################################################"
+echo "DATA_DIR: $DATA_DIR"
+echo "DEMO_DIR: $DEMO_DIR"
 echo "GPFDIST_PORT: $GPFDIST_PORT"
 
 if [ "$GPFDIST_PORT" == "" ]; then
@@ -42,9 +44,8 @@ start_gpfdist()
 		fi
 	else
 		echo "Starting gpfdist port $GPFDIST_PORT"
-		echo "Diretory for gpfdist: \"/$DATA_DIR/$DEMO_DIR\"
-		echo "gpfdist -d \"/$DATA_DIR/$DEMO_DIR\" -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &"
-		gpfdist -d /$DATA_DIR/$DEMO_DIR -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &
+		echo "gpfdist -d \"/$DATA_DIR/$DEMO_DIR/data\" -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &"
+		gpfdist -d /$DATA_DIR/$DEMO_DIR/data -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &
 		gpfdist_pid=$!
 
 		# check gpfdist process was started
