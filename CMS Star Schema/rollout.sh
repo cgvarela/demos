@@ -43,22 +43,21 @@ start_gpfdist()
 			kill $gpfdist_pid
 			sleep 2
 		fi
-	else
-		echo "Starting gpfdist port $GPFDIST_PORT"
-		echo "gpfdist -d /$DATA_DIR/$DEMO_DIR/data -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &"
-		gpfdist -d /$DATA_DIR/$DEMO_DIR/data -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &
-		gpfdist_pid=$!
+	fi
+	echo "Starting gpfdist port $GPFDIST_PORT"
+	echo "gpfdist -d /$DATA_DIR/$DEMO_DIR/data -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &"
+	gpfdist -d /$DATA_DIR/$DEMO_DIR/data -p $GPFDIST_PORT >> /dev/null 2>&1 < /dev/null &
+	gpfdist_pid=$!
 
-		# check gpfdist process was started
-		if [ "$gpfdist_pid" -ne "0" ]; then
-			sleep 0.4
-			count=`ps -ef 2> /dev/null | grep -v grep | awk -F ' ' '{print $2}' | grep $gpfdist_pid | wc -l`
-			if [ "$count" -eq "1" ]; then
-				echo "gpfdist started on port $GPFDIST_PORT"
-			else
-				echo "ERROR: gpfdist couldn't start on port $GPFDIST_PORT"
-				exit 1
-			fi
+	# check gpfdist process was started
+	if [ "$gpfdist_pid" -ne "0" ]; then
+		sleep 0.4
+		count=`ps -ef 2> /dev/null | grep -v grep | awk -F ' ' '{print $2}' | grep $gpfdist_pid | wc -l`
+		if [ "$count" -eq "1" ]; then
+			echo "gpfdist started on port $GPFDIST_PORT"
+		else
+			echo "ERROR: gpfdist couldn't start on port $GPFDIST_PORT"
+			exit 1
 		fi
 	fi
 }
