@@ -92,11 +92,8 @@ echo "Init Hadoop"
 echo "############################################################################"
 hadoop_init
 echo ""
-echo "############################################################################"
-echo "HAWQ Begin"
-echo "############################################################################"
-#HAWQ Tables
-for i in $( ls *.sql | grep -v report.sql ); do
+# Step 1
+for i in $( ls *.step1.sql ); do
 	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
 	echo $i
 	#begin time
@@ -109,9 +106,47 @@ for i in $( ls *.sql | grep -v report.sql ); do
 	log
 done
 echo ""
-echo "############################################################################"
-echo "Completed HAWQ"
-echo "############################################################################"
+# Step 2
+for i in $( ls *.step2.sql ); do
+	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
+	echo $i
+	#begin time
+	T="$(date +%s%N)"
+
+	beeline -u jdbc:hive2://$HOSTNAME:10000 -n pxf -f $i
+	echo ""
+
+	log
+done
+echo ""
+# Step 3
+for i in $( ls *.step3.sql ); do
+	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
+	hive_table_name=`echo $i | awk -F '.' ' { print $3 } '`
+	echo $i
+	#begin time
+	T="$(date +%s%N)"
+
+	LOCATION="'pxf://$HOSTNAME:$NN_PORT/$hive_table_name?profile=Hive'"
+
+	psql -a -P pager=off -f $i -v LOCATION=$LOCATION
+	echo ""
+
+	log
+done
+echo ""
+# Step 4
+for i in $( ls *.step4.sql ); do
+	table_name=`echo $i | awk -F '.' ' { print $2 "." $3 } '`
+	echo $i
+	#begin time
+	T="$(date +%s%N)"
+
+	psql -a -P pager=off -f $i 
+	echo ""
+
+	log
+done
 echo ""
 echo "############################################################################"
 echo "Results"
