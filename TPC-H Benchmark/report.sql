@@ -3,6 +3,10 @@ FROM reports.tpch t1
 JOIN pg_class c on split_part(t1.table_name, '.', 2) = c.relname
 JOIN pg_namespace n on split_part(t1.table_name, '.', 1) = n.nspname and c.relnamespace = n.oid
 UNION ALL
+SELECT t1.id, t1.table_name, -1, t1.duration::interval
+FROM reports.tpch t1
+WHERE split_part(t1.table_name, '.', 1) = 'query'
+UNION ALL
 SELECT -1, 'Average Load Time' as table_name, -1, avg(t1.duration)
 FROM reports.tpch t1
 WHERE table_name like 'tpch%'
