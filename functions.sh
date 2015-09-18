@@ -4,17 +4,27 @@ set -e
 
 source_bashrc()
 {
+	echo "############################################################################"
+	echo "Source .bashrc"
+	echo "############################################################################"
 	source ~/.bashrc
+	echo ""
 }
 
 set_psqlrc()
 {
+	echo "############################################################################"
+	echo "Set the .psqlrc file"
+	echo "############################################################################"
 	echo "\timing" > ~/.psqlrc
-	
+	echo ""
 }
 
 start_gpfdist()
 {
+	echo "############################################################################"
+	echo "Start gpfdist process"
+	echo "############################################################################"
 	local count=`ps -ef | grep gpfdist | grep $GPFDIST_PORT | grep -v grep | wc -l`
 	if [ "$count" -eq "1" ]; then
 		gpfdist_pid=`ps -ef | grep gpfdist | grep $GPFDIST_PORT | grep -v grep | awk -F ' ' '{print $2}'`
@@ -40,14 +50,19 @@ start_gpfdist()
 			exit 1
 		fi
 	fi
+	echo ""
 }
 
 stop_gpfdist()
 {
+	echo "############################################################################"
+	echo "Stop gpfdist process"
+	echo "############################################################################"
 	if [ "$gpfdist_pid" != "" ]; then
 		echo "Stopping gpfdist on pid: $gpfdist_pid"
 		kill $gpfdist_pid
 	fi
+	echo ""
 }
 
 log()
@@ -68,6 +83,9 @@ log()
 
 create_reports_schema()
 {
+	echo "############################################################################"
+	echo "Create reporting schema for later analysis of HAWQ"
+	echo "############################################################################"
 	local MY_DIR=$1
 	local schema_count=`psql -A -t -c "SELECT count(*) from pg_namespace WHERE nspname = 'reports'"`
 	if [ "$schema_count" -eq "0" ]; then
@@ -78,17 +96,26 @@ create_reports_schema()
 	if [ "$table_count" -eq "0" ]; then
 		psql -c "CREATE EXTERNAL WEB TABLE reports.$DEMO (id int, table_name varchar, duration time) EXECUTE 'cat \"$MY_DIR/rollout.log\"' ON MASTER FORMAT 'TEXT' (DELIMITER '|');"
 	fi
+	echo ""
 }
 
 remove_old_log()
 {
+	echo "############################################################################"
+	echo "Remove old logs"
+	echo "############################################################################"
 	local MY_DIR=$1
 	echo "rm -f \"$MY_DIR/rollout.log\""
 	rm -f "$MY_DIR/rollout.log"
+	echo ""
 }
 
 hadoop_init()
 {
+	echo "############################################################################"
+	echo "Init Hadoop"
+	echo "############################################################################"
 	local MY_DIR=$1
 	sudo -u hdfs hdfs dfs -rm -f -r -skipTrash "$MY_DIR"
+	echo ""
 }
