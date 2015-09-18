@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+source ../functions.sh
 DEMO=tpch
 HOSTNAME=`hostname`
 DATA_DIR=$1

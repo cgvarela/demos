@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+source ../functions.sh
 DEMO=pxf
 HOSTNAME=`hostname`
 
