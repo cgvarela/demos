@@ -83,12 +83,12 @@ create_reports_schema()
 remove_old_log()
 {
 	local MY_DIR=$1
-	rm -f $MY_DIR/rollout.log
+	echo "rm -f \"$MY_DIR/rollout.log\""
+	rm -f "$MY_DIR/rollout.log"
 }
 
 hadoop_init()
 {
 	local MY_DIR=$1
-	sudo -u hdfs hdfs dfs -rm -f -r -skipTrash $MY_DIR
+	sudo -u hdfs hdfs dfs -rm -f -r -skipTrash "$MY_DIR"
 }
-
