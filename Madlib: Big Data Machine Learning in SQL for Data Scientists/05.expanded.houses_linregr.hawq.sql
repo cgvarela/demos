@@ -1,6 +1,6 @@
 --Examine the resulting models
 
-SELECT unnest(ARRAY['intercept','tax','bath','size']) as attribute,
+SELECT unnest(ARRAY['intercept','tax','bath','size', 'lot']) as attribute,
        unnest(coef) as coefficient,
        unnest(std_err) as standard_error,
        unnest(t_stats) as t_stat,
