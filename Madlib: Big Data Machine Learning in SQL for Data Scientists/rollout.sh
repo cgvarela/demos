@@ -52,6 +52,7 @@ for i in $( ls *.hawq.sql ); do
 
 	psql -a -P pager=off -f $i -v LOCATION=$LOCATION
 	echo ""
+	read -p "Hit enter to continue..."
 
 	log
 done
