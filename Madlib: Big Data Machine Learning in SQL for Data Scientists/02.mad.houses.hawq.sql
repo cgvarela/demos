@@ -18,4 +18,4 @@ SELECT  i,
         (random()*(price_upper-price_lower)+price_lower)::int AS price,
         (random()*(size_upper-size_lower)+size_lower)::int AS size, 
         (random()*(lot_upper-lot_lower)+lot_lower)::int AS lot
-FROM generate_series(1,10000) AS i, mad.variables;
+FROM generate_series(1,250000) AS i, mad.variables;
